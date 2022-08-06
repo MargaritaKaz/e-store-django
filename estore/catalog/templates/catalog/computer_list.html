@@ -1,0 +1,152 @@
+{% extends "base_generic.html" %}
+
+{% block style %}
+<style>
+</style>
+{% endblock %}
+
+{% block content %}
+
+<script>
+    function val1() {
+        val = document.getElementById("brand_id").value;
+        document.getElementById("brand-choise").innerHTML = val;
+    }
+    function val2() {
+        val = document.getElementById("OS_id").value;
+        document.getElementById("OS-choise").innerHTML = val;
+    }
+    function val3() {
+        val = document.getElementById("RAM_id").value;
+        document.getElementById("RAM-choise").innerHTML = val;
+    }
+
+</script>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<h1 style="text-align: center;">Laptops</h1>
+<div class="container bootdey">
+    <div class="col-md-3">
+        <section class="panel">
+            <div class="panel-body">
+
+                <form role="form" method="GET" action="search">
+                    {% csrf_token %}
+                    <input type="text" placeholder="Keyword Search" class="form-control" name="search" />
+                    <div><br> </div>
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+
+            </div>
+
+        </section>
+
+        <section class="panel">
+            <header class="panel-heading">
+                Filter
+            </header>
+            <div class="panel-body">
+                <form role="form product-form" method="GET" action="filter">
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <select onchange="val1()" class="form-control hasCustomSelect" name="brand" id="brand_id"
+                            style="-webkit-appearance: menulist-button; width: 231px; position: absolute; opacity: 0; height: 34px; font-size: 12px;">
+                            <option selected="selected">All</option>
+                            <option>Acer</option>
+                            <option>Apple</option>
+                            <option>Dell</option>
+                            <option>HP</option>
+                            <option>LG</option>
+                            <option>Lenovo</option>
+                            <option>Toshiba</option>
+                        </select>
+                        <span id="brand-choise" class="customSelect form-control" style="display: inline-block;"><span
+                                class="customSelectInner" style="width: 209px; display: inline-block;">All</span></span>
+                    </div>
+                    <div class="form-group">
+                        <label>OS</label>
+                        <select onchange="val2()" class="form-control hasCustomSelect" name="OS" id="OS_id"
+                            style="-webkit-appearance: menulist-button; width: 231px; position: absolute; opacity: 0; height: 34px; font-size: 12px;">
+                            <option selected="selected">All</option>
+                            <option>Windows 11</option>
+                            <option>Windows 10</option>
+                            <option>MacOS Catalina</option>
+                            <option>Linux</option>
+                        </select>
+                        <span id="OS-choise" class="customSelect form-control" style="display: inline-block;"><span
+                                class="customSelectInner" style="width: 209px; display: inline-block;">All</span></span>
+                    </div>
+                    <div class="form-group">
+                        <label>RAM </label>
+                        <select onchange="val3()" class="form-control hasCustomSelect" name="RAM" id="RAM_id"
+                            style="-webkit-appearance: menulist-button; width: 231px; position: absolute; opacity: 0; height: 34px; font-size: 12px;">
+                            <option selected="selected">All</option>
+                            <option>8</option>
+                            <option>16</option>
+                        </select>
+                        <span id="RAM-choise" class="customSelect form-control" style="display: inline-block;"><span
+                                class="customSelectInner" style="width: 209px; display: inline-block;">All</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label><br>
+                        From
+                        <input type="text" id="startprice" name="startprice" value="0" class="form-control">
+                        To
+                        <input type="text" id="endprice" name="endprice" value="10000" class="form-control">
+                    </div>
+                    <button class="btn btn-primary" type="submit">Filter</button>
+                </form>
+
+            </div>
+        </section>
+
+    </div>
+    <div class="col-md-9">
+        <section class="panel">
+            <div class="panel-body">
+                <div class="pull-right">
+                    <!-- <ul class="pagination pagination-sm pro-page-list">
+                          <li><a href="#">1</a></li>
+                          <li><a href="#">2</a></li>
+                          <li><a href="#">3</a></li>
+                          <li><a href="#">»</a></li>
+                      </ul> -->
+                </div>
+            </div>
+        </section>
+
+        {% if computer_list %}
+        <div class="row product-list">
+            {% for comp in computer_list %}
+            {% if comp.quantity != 0 %}
+            <div class="col-md-4" style="height: 460px;">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <a href="{{ comp.get_absolute_url }}"><img src={{ comp.img }} alt="" /></a>
+                        <a href="add_to_cart/{{comp.auto_increment_id}}" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
+
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="{{ comp.get_absolute_url }}" class="pro-title">
+                                {{ comp.title }}
+                            </a>
+                        </h4>
+                        <p class="price">{{ comp.newprice }}</p>
+                    </div>
+                </section>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <p style="text-align: center ;">There are no computers matching this criteria.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

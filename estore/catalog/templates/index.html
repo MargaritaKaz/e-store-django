@@ -1,0 +1,52 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1 class="text-center">This week Promotions</h1>
+{% if computer_list %}
+<div class="container mydiv">
+  <div class="row">
+    {% for comp in computer_list %}
+    <div class="col-md-4">
+      <!-- bbb_deals -->
+      <div class="bbb_deals">
+        <div class="ribbon ribbon-top-right"><span><small class="cross"></small>{{comp.discount}}%</span></div>
+        <div class="bbb_deals_title">Today's Combo Offer</div>
+        <div class="bbb_deals_slider_container">
+          <div class=" bbb_deals_item">
+            <div class="bbb_deals_image"><a href={{ comp.get_absolute_url }}><img src={{comp.img}} alt=""></a></div>
+            <div class="bbb_deals_content">
+              <div class="bbb_deals_info_line d-flex flex-row justify-content-start">
+                <div class="bbb_deals_item_category"><a href="#">Laptop</a></div>
+                <div class="bbb_deals_item_price_a ml-auto"><strike>{{comp.price}}</strike></div>
+              </div>
+              <div class="bbb_deals_info_line d-flex flex-row justify-content-start">
+                <div class="bbb_deals_item_name">
+                  <a href={{ comp.get_absolute_url }}>
+                    {{ comp.title }}
+                  </a>
+                </div>
+                <div class="bbb_deals_item_price ml-auto">${{comp.newprice}}</div>
+              </div>
+              <div class="available">
+                <div class="available_line d-flex flex-row justify-content-start">
+                  <div class="available_title">Available: <span>{{comp.quantity}}</span></div>
+                  <div class="sold_stars ml-auto"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+                      class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </div>
+                </div>
+                <div class="available_bar"><span style="width:17%"></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% else %}
+<p>There are no comps in the library.</p>
+{% endif %}
+
+
+
+{% endblock %}
